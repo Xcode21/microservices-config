@@ -3,7 +3,7 @@ spring:
     name: product-service
 
 server:
-  port: 8085 # Puerto diferente para el cliente
+  port: 8099 # Puerto diferente para el cliente
 
 eureka:
   client:
