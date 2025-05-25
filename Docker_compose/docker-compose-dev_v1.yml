@@ -1,0 +1,27 @@
+version: '3.8'        # Versión de la sintaxis de Compose
+services:             # Define los “servicios” (contenedores) de tu aplicación
+  app:                # Nombre lógico de un servicio
+    build:            # Opción A: construye imagen desde Dockerfile
+      context: .      # Carpeta donde está el Dockerfile
+      dockerfile: Dockerfile
+    image: mi-app:1.0 # Opción B: usa una imagen ya publicada
+    ports:            # Mapea puertos host:contenedor
+      - "8080:8080"
+    environment:      # Variables de entorno dentro del contenedor
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:       # Orquesta el orden de levantado
+      - db
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: mibasedatos
+    ports:
+      - "5432:5432"
+    volumes:          # Volúmenes para persistir datos
+      - pgdata:/var/lib/postgresql/data
+
+volumes:              # Definición global de volúmenes reutilizables
+  pgdata:

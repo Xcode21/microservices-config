@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    restart: always
+    environment:
+      # Credenciales y nombre de la base de datos
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret2
+      POSTGRES_DB: mibasedatos
+    ports:
+      # HOST:CONTENEDOR → expone PostgreSQL en localhost:5432
+      - "5436:5432"
+    volumes:
+      # Volumen para persistir los datosw
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # Comprueba que PostgreSQL esté listo para conexiones
+      test: ["CMD", "pg_isready", "-U", "user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
