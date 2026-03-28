@@ -1,0 +1,50 @@
+server:
+  port: ${SERVER_PORT:8082}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+spring:
+  application:
+    name: ms-negocio-gestion-huesped
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
+    url: ${DB_URL:jdbc:mysql://localhost:3307/db_huesped?createDatabaseIfNotExist=true}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${DB_DDL_AUTO:validate}
+      show-sql: ${JPA_SHOW_SQL:false}
+  # Server Admin Client
+  #boot:
+  #  admin:
+  #    client:
+  #      url: http://localhost:8890
+  #      instance:
+  #        management-base-url: http://localhost:${server.port}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+eureka:
+  client:
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://localhost:8889/eureka}
